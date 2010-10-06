@@ -101,8 +101,8 @@ to add any pieces of satchmo.
         # Load the local settings
         from local_settings import *
 
-.. note::
-    In order for the admin site to work properly, you must have satchmo_store.shop placed before django.contrib.admin
+   .. note::
+        In order for the admin site to work properly, you must have satchmo_store.shop placed before django.contrib.admin
 
 2. Copy the :file:`local_settings` file to mystore::
 
@@ -159,9 +159,9 @@ Configure the rest of the required files
         python manage.py satchmo_copy_static
 
 4. Ensure that you have a template directory setup. You only need to place templates in the directory if you are
-overriding existing templates.
+   overriding existing templates.
 
-After you have installed everything, you should have a directory structure that looks similar to this::
+   After you have installed everything, you should have a directory structure that looks similar to this::
 
     mystore
         |-- __init__.py
