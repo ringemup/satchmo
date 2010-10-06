@@ -89,6 +89,8 @@ to add any pieces of satchmo.
             'django.contrib.auth.backends.ModelBackend'
             )
 
+   (Continued on next page)::
+
         #### Satchmo unique variables ####
         #from django.conf.urls.defaults import patterns, include
         SATCHMO_SETTINGS = {
