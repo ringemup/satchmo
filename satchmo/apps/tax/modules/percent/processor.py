@@ -1,7 +1,8 @@
 from decimal import Decimal
 from livesettings import config_value
+from tax.modules.base.processor import BaseProcessor
 
-class Processor(object):
+class Processor(BaseProcessor):
     
     method="percent"
     

@@ -10,6 +10,7 @@ from satchmo_store.contact.models import Contact
 from l10n.models import AdminArea, Country
 from satchmo_utils import is_string_like
 from product.models import TaxClass
+from tax.modules.base.processor import BaseProcessor
 from models import TaxBoundry, TaxRate, Taxable
 import logging
 import re
@@ -17,7 +18,7 @@ import datetime
 
 log = logging.getLogger('tax.us_sst')
 
-class Processor(object):
+class Processor(BaseProcessor):
 
     method = "us_sst"
 
