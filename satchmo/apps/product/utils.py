@@ -111,7 +111,7 @@ def productvariation_details(product, include_tax, user, create=False):
             detail['SALE'][qtykey] = moneyfmt(calc_discounted_by_percentage(price, discount.percentage))
 
         if include_tax:
-            tax_price = taxer.by_price(tax_class, price) + price
+            tax_price = taxer.by_product_and_price(tax_class, price, product=product) + price
             detail['TAXED'][qtykey] = moneyfmt(tax_price)
             if use_discount:
                 detail['TAXED_SALE'][qtykey] = moneyfmt(calc_discounted_by_percentage(tax_price, discount.percentage))

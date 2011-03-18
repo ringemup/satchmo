@@ -1175,7 +1175,7 @@ class OrderItem(models.Model):
         processor = get_tax_processor(order=self.order)
 
         if self.product.taxable:
-            self.unit_tax = processor.by_price(taxclass, self.unit_price)
+            self.unit_tax = processor.by_product_and_price(taxclass, self.unit_price, product=self.product)
             self.tax = processor.by_orderitem(self)
 
     class Meta:

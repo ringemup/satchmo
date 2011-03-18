@@ -248,7 +248,7 @@ class PaymentProcessor(BasePaymentProcessor):
                 price = trunc_decimal(trial.price, 2)
                 trial_amount = price
                 if price and subscription.product.taxable:
-                    trial_amount = taxer.by_price(subscription.product.taxClass, price)
+                    trial_amount = taxer.by_product_and_price(subscription.product.taxClass, price, product=subscription.product)
                     #todo, maybe add shipping for trial?
                 amount = sub.recurring_price()
                 trial_occurrences = trial.occurrences

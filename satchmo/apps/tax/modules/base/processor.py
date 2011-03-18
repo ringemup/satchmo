@@ -27,7 +27,7 @@ class BaseProcessor(object):
         raise NotImplementedError() 
         
     def by_product_and_price(self, taxclass, price, product=None):
-        raise NotImplementedError() 
+        return self.by_price(taxclass, price)
         
     def by_orderitem(self, orderitem):
         raise NotImplementedError() 

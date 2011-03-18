@@ -31,7 +31,7 @@ def taxed_sale_price(product):
     """Returns the product unit price with the best auto discount applied and taxes included."""
     taxer = satchmo_tax._get_taxprocessor()
     price = untaxed_sale_price(product)
-    price = price + taxer.by_price(product.taxClass, price)
+    price = price + taxer.by_product_and_price(product.taxClass, price, product=product)
     return price
 
 register.filter('taxed_sale_price', taxed_sale_price)
@@ -90,7 +90,7 @@ def taxed_discount_line_total(cartitem, discount):
     """Returns the discounted line total for this cart item with taxes included."""
     price = untaxed_discount_line_total(cartitem, discount)
     taxer = satchmo_tax._get_taxprocessor()
-    price = price + taxer.by_price(cartitem.product.taxClass, price)
+    price = price + taxer.by_product_and_price(cartitem.product.taxClass, price, product=cartitem.product)
 
     return price
 
@@ -130,7 +130,7 @@ def taxed_discount_price(product, discount):
     """
     price = untaxed_discount_price(product, discount)
     taxer = satchmo_tax._get_taxprocessor()
-    return price + taxer.by_price(product.taxClass, price)
+    return price + taxer.by_product_and_price(product.taxClass, price, product=product)
 
 register.filter('taxed_discount_price', taxed_discount_price)
 

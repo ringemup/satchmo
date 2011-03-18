@@ -7,11 +7,12 @@ from models import TaxRate
 from product.models import TaxClass
 from satchmo_store.contact.models import Contact
 from satchmo_utils import is_string_like
+from tax.modules.base.processor import BaseProcessor
 import logging
 
 log = logging.getLogger('tax.area')
 
-class Processor(object):
+class Processor(BaseProcessor):
     
     method = "area"
     
