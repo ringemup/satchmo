@@ -6,13 +6,14 @@ class Processor(BaseProcessor):
     
     method="percent"
     
-    def __init__(self, order=None, user=None):
-        """
-        Any preprocessing steps should go here
-        For instance, copying the shipping and billing areas
-        """
-        self.order = order
-        self.user = user
+    #def __init__(self, order=None, user=None):
+    #    """
+    #    Any preprocessing steps should go here
+    #    For instance, copying the shipping and billing areas
+    #    """
+    #    super(Processor, self).__init__(order=order, user=user)
+    #    self.order = order
+    #    self.user = user
 
     def by_orderitem(self, orderitem):
         if orderitem.product.taxable:

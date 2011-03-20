@@ -22,14 +22,6 @@ class Processor(BaseProcessor):
 
     method = "us_sst"
 
-    def __init__(self, order=None, user=None):
-        """
-        Any preprocessing steps should go here
-        For instance, copying the shipping and billing areas
-        """
-        self.order = order
-        self.user = user
-
     def _get_location(self):
         area=country=postal_code=None
 

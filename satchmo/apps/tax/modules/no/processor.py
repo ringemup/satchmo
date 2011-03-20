@@ -1,17 +1,10 @@
 from decimal import Decimal
-from tax.modules.base.processor import BaseProcessor
+from tax.modules.processor import BaseProcessor
 
 class Processor(BaseProcessor):
     
     method="no"
     
-    def __init__(self, order=None, user=None):
-        """
-        Any preprocessing steps should go here
-        For instance, copying the shipping and billing areas
-        """
-        pass
-
     def by_product(self, product, quantity=Decimal('1')):
         return Decimal("0.0")
         
@@ -25,13 +18,7 @@ class Processor(BaseProcessor):
         return Decimal("0.0")                
                 
     def process(self, order=None):
-        """
-        Calculate the tax and return it
-        """
         return Decimal("0.0"), {}
-
-    def get_percent(self, *args, **kwargs):
-        return Decimal("0")
 
     def get_rate(self, *args, **kwargs):
         return Decimal("0")
