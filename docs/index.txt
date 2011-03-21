@@ -53,6 +53,7 @@ Modifying A Store
    custom-payment
    product-attributes
    custom-product
+   custom-tax
    translation
    templates
    template-filters-tags
