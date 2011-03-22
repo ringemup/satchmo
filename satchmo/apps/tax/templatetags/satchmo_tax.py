@@ -39,7 +39,7 @@ class CartitemLineTaxedTotalNode(template.Node):
         except template.VariableDoesNotExist:
             raise template.TemplateSyntaxError("No such variable: %s", self.cartitem)
         
-        total = item.line_total + taxer.by_price(item.product.taxClass, item.line_total)
+        total = item.line_total + taxer.by_product_and_price(item.product.taxClass, item.line_total, product=item.product)
         
         if self.currency:
             return moneyfmt(total)
@@ -73,7 +73,7 @@ class CartTaxedTotalNode(template.Node):
 
         total = Decimal('0.00')
         for item in cart:
-            total += item.line_total + taxer.by_price(item.product.taxClass, item.line_total)
+            total += item.line_total + taxer.by_product_and_price(item.product.taxClass, item.line_total, product=item.product)
         if self.currency:
             return moneyfmt(total)
         
