@@ -1,20 +1,16 @@
 from decimal import Decimal
 from livesettings import config_value
-from tax.modules.base.processor import BaseProcessor
+from tax.models.processor import BaseProcessor
 
 class Processor(BaseProcessor):
-    
-    method="percent"
-    
-    #def __init__(self, order=None, user=None):
-    #    """
-    #    Any preprocessing steps should go here
-    #    For instance, copying the shipping and billing areas
-    #    """
-    #    super(Processor, self).__init__(order=order, user=user)
-    #    self.order = order
-    #    self.user = user
+    """Simple VAT (Value Added Tax) for one country in Europe.
+    Implemented 2 taxrates (normal and reduced) editable by settings
 
+    One taxclass should be named 'ReducedVAT'. An arbitrary name is for a normal VAT tax.
+    """
+    
+    method="vat"
+    
     def by_orderitem(self, orderitem):
         if orderitem.product.taxable:
             price = orderitem.sub_total
@@ -23,20 +19,25 @@ class Processor(BaseProcessor):
             return Decimal("0.00")
         
     def by_price(self, taxclass, price):
-        percent = config_value('TAX','PERCENT')
-        p = price * (percent/100)
-        return p
+        if getattr(taxclass, 'title', None) != 'ReducedVAT':
+            percent = config_value('TAX','PERCENT')
+        else:
+            percent = config_value('TAX','REDUCEDVAT')
+        return price * (percent / 100)
         
     def by_product(self, product, quantity=Decimal('1')):
         price = product.get_qty_price(quantity)
         taxclass = product.taxClass
         return self.by_price(taxclass, price)
         
-    def get_percent(self, *args, **kwargs):
-        return Decimal(config_value('TAX','PERCENT'))
+    def get_percent(self, taxclass='Default', *args, **kwargs):
+        if getattr(taxclass, 'title', None) != 'ReducedVAT':
+            return Decimal(config_value('TAX','PERCENT'))
+        else:
+            return Decimal(config_value('TAX','REDUCEDVAT'))
     
     def get_rate(self, *args, **kwargs):
-        return self.get_percent()/100
+        return self.get_percent(*args, **kwargs)/100
         
     def shipping(self, subtotal=None):
         if subtotal is None and self.order:
