@@ -135,6 +135,40 @@ satchmo_cart_add_complete=django.dispatch.Signal()
 #: .. Note:: *cart* is the same as *sender*.
 satchmo_cart_add_verify=django.dispatch.Signal()
 
+#: Sent before a cart item quantity is changed.
+#:
+#: :param sender: The cart the cart item belongs to.
+#: :type sender: ``satchmo_store.shop.models.Cart``
+#:
+#: :param cart: The cart the cart item belongs to.
+#: :type cart: ``satchmo_store.shop.models.Cart``
+#:
+#: :param cartitem: The cart item whose quantity is being changed.
+#: :type cartitem: ``satchmo_store.shop.models.CartItem``
+#:
+#: :param old_quantity: The number of ``satchmo_store.shop.models.CartItem``
+#:   instances items already in the cart.
+#: :type added_quantity: ``decimal.Decimal``
+#:
+#: :param new_quantity: The number of ``satchmo_store.shop.models.CartItem``
+#:   instances items that will be in the cart after the update.
+#: :type added_quantity: ``decimal.Decimal``
+#:
+#: :param details: A list of dictionaries containing additional details about the
+#:   item if the item is a custom product or a gift certificate product. Each
+#:   dictionary has the following entries:
+#:
+#:   :name: The name of the detail
+#:   :value: The value of the detail
+#:   :value: The value of the detail
+#:   :sort_order: The order the detail should be listed in displays
+#:   :price_change: The price change of the detail
+#:
+#:     :default: zero
+#:
+#: .. Note:: *cart* is the same as *sender*.
+satchmo_cart_change_verify=django.dispatch.Signal()
+
 #: Sent whenever the status of the cart has changed. For example, when an item
 #: is added, removed, or had it's quantity updated.
 #:

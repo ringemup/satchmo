@@ -15,9 +15,9 @@ from product.models import Product, OptionManager
 from product.utils import find_best_auto_discount
 from product.views import optionids_from_post
 from satchmo_store.shop import forms
-from satchmo_store.shop.exceptions import CartAddProhibited
+from satchmo_store.shop.exceptions import CartAddProhibited, CartChangeProhibited
 from satchmo_store.shop.models import Cart, CartItem, NullCart, NullCartItem
-from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query, satchmo_cart_view
+from satchmo_store.shop.signals import satchmo_cart_changed, satchmo_cart_add_complete, satchmo_cart_details_query, satchmo_cart_view, satchmo_cart_change_verify
 from satchmo_utils.numbers import RoundedDecimalError, round_decimal
 from satchmo_utils.views import bad_or_missing
 import logging
@@ -88,6 +88,11 @@ def _set_quantity(request, force_delete=False):
         cartitem = CartItem.objects.get(pk=itemid, cart=cart)
     except CartItem.DoesNotExist:
         return (False, cart, None, _("No such item in your cart."))
+        
+    try:
+        satchmo_cart_change_verify.send(cart, cart=cart, cartitem=cartitem, old_quantity=cartitem.quantity, new_quantity=qty, details=[])
+    except CartChangeProhibited, ccp:
+        return _cart_error(request, cart, ccp.message)
 
     if qty == Decimal('0'):
         cartitem.delete()
@@ -396,4 +401,17 @@ def _product_error(request, product, msg):
     else:
         messages.error(request, msg)
         return HttpResponseRedirect(product.get_absolute_url())
+
+
+
+def _cart_error(request, cart, msg, url=None):
+    log.debug('Cart Error: %s', msg)
+    if not url:
+        url = urlresolvers.reverse('satchmo_cart')
+
+    if request.is_ajax():
+        return _json_response({'errors': [msg,]}, error=True)
+    else:
+        messages.error(request, msg)
+        return HttpResponseRedirect(url)
 

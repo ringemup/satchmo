@@ -14,6 +14,24 @@ class CartAddProhibited(Exception):
     def _get_message(self):
         return self._message
     message = property(_get_message)
+    
+
+class CartChangeProhibited(Exception):
+    """Raised when a `signals.satchmo_cart_change_verify` listener vetoes changing a product quantity in the cart.
+
+    Params:
+    - cartitem: item which was being changed
+    - message: veto message
+    """
+
+    def __init__(self, cartitem, message):
+        self.cartitem, self._message = cartitem, message
+
+    def _get_message(self):
+        return self._message
+    message = property(_get_message)
+	
+
 
 class OutOfStockError(CartAddProhibited):
 
