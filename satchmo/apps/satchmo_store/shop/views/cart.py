@@ -92,7 +92,7 @@ def _set_quantity(request, force_delete=False):
     try:
         satchmo_cart_change_verify.send(cart, cart=cart, cartitem=cartitem, old_quantity=cartitem.quantity, new_quantity=qty, details=[])
     except CartChangeProhibited, ccp:
-        return _cart_error(request, cart, ccp.message)
+        return (False, cart, cartitem, ccp.message)
 
     if qty == Decimal('0'):
         cartitem.delete()
@@ -401,17 +401,4 @@ def _product_error(request, product, msg):
     else:
         messages.error(request, msg)
         return HttpResponseRedirect(product.get_absolute_url())
-
-
-
-def _cart_error(request, cart, msg, url=None):
-    log.debug('Cart Error: %s', msg)
-    if not url:
-        url = urlresolvers.reverse('satchmo_cart')
-
-    if request.is_ajax():
-        return _json_response({'errors': [msg,]}, error=True)
-    else:
-        messages.error(request, msg)
-        return HttpResponseRedirect(url)
 
